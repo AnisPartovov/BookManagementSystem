@@ -1,60 +1,29 @@
+# Set the base image to Maven for building the application
 FROM maven:3.9.4-eclipse-temurin-17 AS build
-
+ 
+# Set the working directory for the build stage
 WORKDIR /app
-
-COPY pom.xml .
-
-COPY src/ ./src
-
-RUN mvn clean package
-
-FROM openjdk:17-jdk-slim
-
-WORKDIR /app
-
-COPY --from=build /app/target/*.jar app.jar
-
-EXPOSE 8081
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
-
-# Stage 1: Build the application
-
-FROM maven:3.9.4-eclipse-temurin-17 AS build
-
-WORKDIR /app
-
-# Copy the parent directory into the container
-
+ 
+# Copy the entire project into the container
 COPY . .
-
-# Dynamically build the selected microservice
-
+ 
+# Build the specified service using Maven
 ARG SERVICE
-
-WORKDIR /app/$SERVICE
-
-RUN mvn clean package
-
-# Stage 2: Run the application
-
-FROM openjdk:17-jdk-slim
-
+RUN if [ -z "$SERVICE" ]; then echo "SERVICE argument not provided"; exit 1; fi \
+&& mvn -f /app/$SERVICE/pom.xml clean package
+ 
+# Set the base image for running the application
+FROM eclipse-temurin:17
+ 
+# Set the working directory for the runtime stage
 WORKDIR /app
-
-# Dynamically copy the correct JAR file
-
+ 
+# Copy the built JAR file from the build stage
 ARG SERVICE
-
 COPY --from=build /app/$SERVICE/target/*.jar app.jar
-
-# Expose default application port
-
+ 
+# Expose the default application port
 EXPOSE 8080
-
-# Default command to run the selected microservice
-
+ 
+# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
-
