@@ -1,18 +1,19 @@
-# Set the base image to Maven for building the application
+# Stage 1: Build the application
 FROM maven:3.9.4-eclipse-temurin-17 AS build
- 
+
 # Set the working directory for the build stage
 WORKDIR /app
- 
+
 # Copy the entire project into the container
 COPY . .
- 
+
 # Build the specified service using Maven
 ARG SERVICE
-RUN if [ -z "$SERVICE" ]; then echo "SERVICE argument not provided"; exit 1; fi \
-&& mvn -f /app/$SERVICE/pom.xml clean package
- 
-# Set the base image for running the application
+WORKDIR /app/$SERVICE
+RUN if [ ! -f pom.xml ]; then echo "pom.xml not found in /app/$SERVICE"; exit 1; fi \
+&& mvn clean package
+
+# Stage 2: Create the runtime image
 FROM eclipse-temurin:17
  
 # Set the working directory for the runtime stage
