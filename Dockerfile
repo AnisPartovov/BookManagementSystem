@@ -19,9 +19,9 @@ WORKDIR /app
 ARG SERVICE=author-book-service
 ENV SERVICE=${SERVICE}
 
-# Copy JARs from builder stage
-COPY --from=builder /app/AuthorandBookMicroservice/target/*.jar /app/author-book-service.jar
-COPY --from=builder /app/LibraryManagementSystem/target/*.jar /app/library-management-system.jar
+# Copy JARs from builder stage (using proper escaping for spaces)
+COPY --from=builder "/app/AuthorandBookMicroservice/target/*.jar" /app/author-book-service.jar
+COPY --from=builder "/app/LibraryManagementSystem/target/*.jar" /app/library-management-system.jar
 
 # Expose default application port
 EXPOSE 8080
