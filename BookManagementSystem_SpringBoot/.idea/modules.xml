@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Book-Management-System-Microservice-SpringBoot.iml" filepath="$PROJECT_DIR$/.idea/Book-Management-System-Microservice-SpringBoot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LibraryManagementSystem/LibraryManagementSystem.iml" filepath="$PROJECT_DIR$/LibraryManagementSystem/LibraryManagementSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Author and Book Microservice/authors.iml" filepath="$PROJECT_DIR$/Author and Book Microservice/authors.iml" />
+    </modules>
+  </component>
+</project>

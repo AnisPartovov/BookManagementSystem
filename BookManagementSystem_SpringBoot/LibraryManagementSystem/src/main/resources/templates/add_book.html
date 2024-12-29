@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Library Management System</title>
+</head>
+<body>
+<div class="container mt-5 p-5">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card  ">
+            <h1 class="text-center mt-3">Add New Book</h1>
+            <div class="card-body">
+                <form th:action="@{/books}" th:object="${book}" method="post">
+
+                    <!--   Book Id-->
+<!--                    <div class="form-group">-->
+<!--                        <label>Book Code</label>-->
+<!--                        <input-->
+<!--                                type="text"-->
+<!--                                name="bookId"-->
+<!--                                th:field="*{bookId}"-->
+<!--                                placeholder="Enter Book ID"-->
+<!--                                class="form-control mb-4"-->
+<!--                                th:required="required"-->
+<!--                        >-->
+<!--                    </div>-->
+                    <!--  Book Name -->
+                    <div class="form-group">
+                        <label>Book Name</label>
+                        <input
+                                type="text"
+                                name="bookName"
+                                th:field="*{bookName}"
+                                placeholder="Enter Book Name"
+                                class="form-control mb-4"
+                                th:required="required"
+                        >
+                    </div>
+                    <!-- Authors -->
+                    <div class="form-group">
+                        <label>Author</label>
+                        <select name="author" th:field="*{authorName}" class="mb-4">
+                            <option th:each="author: ${authors}"
+                                    th:value="${author.authorName}"
+                                    th:text="${author.authorName}">
+                        </select>
+                    </div>
+
+<!--                    &lt;!&ndash;  Current Date &ndash;&gt;-->
+<!--                    <div class="form-group">-->
+<!--                        <label>Added On</label>-->
+
+<!--                        <input id="date"-->
+<!--                               readonly="readonly"-->
+<!--                               name="date"-->
+<!--                               value="${#dates.format(#dates.createNow(), 'dd MMM yyyy')}"-->
+<!--                               th:field="*{date}"-->
+<!--                               class="mb-4"-->
+<!--                        >-->
+<!--                    </div>-->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary ">Submit</button>
+                        <button type="button" class="btn btn-danger text-light">
+                            <a th:href="@{/books}">Cancel</a>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
