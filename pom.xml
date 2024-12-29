@@ -6,7 +6,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>Author and Book Microservice</module>
+        <module>AuthorandBookMicroservice</module>
         <module>LibraryManagementSystem</module>
     </modules>
 </project>
