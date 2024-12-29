@@ -13,4 +13,3 @@ FROM eclipse-temurin:17-jre-alpine
 COPY --from=build "/app/Author and Book Microservice/target/*.jar" app.jar
 EXPOSE 8999
 ENTRYPOINT ["java", "-jar", "/app.jar"]
-has context menu
