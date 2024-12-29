@@ -1,9 +1,30 @@
-FROM maven:3.9.4-eclipse-temurin-17 as build
+# Build stage
+FROM maven:3.8.4-openjdk-17 AS builder
+
+# Set working directory
 WORKDIR /app
+
+# Copy the project files
 COPY . .
+
+# Build the projects
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:17-jre-alpine
-COPY --from=build /app/AuthorandBookMicroservice/target/*.jar app.jar
-EXPOSE 8999
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Runtime stage
+FROM openjdk:17-slim
+
+WORKDIR /app
+
+# Environment variable for selecting which service to run
+ARG SERVICE=author-book-service
+ENV SERVICE=${SERVICE}
+
+# Copy JARs from builder stage
+COPY --from=builder /app/AuthorandBookMicroservice/target/*.jar /app/author-book-service.jar
+COPY --from=builder /app/LibraryManagementSystem/target/*.jar /app/library-management-system.jar
+
+# Expose default application port
+EXPOSE 8080
+
+# Default command to run the selected microservice
+ENTRYPOINT ["sh", "-c", "java -jar /app/${SERVICE}.jar"]
