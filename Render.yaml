@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: author-book-service
+    env: docker
+    buildCommand: docker build -t author-book-service -f AuthorandBookMicroservice/Dockerfile .
+    startCommand: docker run -p $PORT:8999 author-book-service
+    envVars:
+      - key: DATABASE_URL
+        value: mysql://your-mysql-host:3306/spring
+      - key: DATABASE_USERNAME
+        fromDatabase:
+          name: book-db
+          property: username
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: book-db
+          property: password
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+
+  - type: web
+    name: library-management
+    env: docker
+    buildCommand: docker build -t library-service -f LibraryManagementSystem/Dockerfile .
+    startCommand: docker run -p $PORT:8999 library-service
+    envVars:
+      - key: DATABASE_URL
+        value: mysql://your-mysql-host:3306/spring
+      - key: DATABASE_USERNAME
+        fromDatabase:
+          name: book-db
+          property: username
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: book-db
+          property: password
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
