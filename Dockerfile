@@ -9,19 +9,19 @@ COPY . .
 
 # Build the specified service using Maven
 ARG SERVICE
-WORKDIR /app/$SERVICE
-RUN if [ ! -f pom.xml ]; then echo "pom.xml not found in /app/$SERVICE"; exit 1; fi \
+WORKDIR /app/BookManagementSystem_SpringBoot/$SERVICE
+RUN if [ ! -f pom.xml ]; then echo "pom.xml not found in /app/BookManagementSystem_SpringBoot/$SERVICE"; exit 1; fi \
 && mvn clean package
 
 # Stage 2: Create the runtime image
 FROM eclipse-temurin:17
- 
+
 # Set the working directory for the runtime stage
 WORKDIR /app
- 
+
 # Copy the built JAR file from the build stage
 ARG SERVICE
-COPY --from=build /app/$SERVICE/target/*.jar app.jar
+COPY --from=build /app/BookManagementSystem_SpringBoot/$SERVICE/target/*.jar app.jar
  
 # Expose the default application port
 EXPOSE 8080
