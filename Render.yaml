@@ -2,7 +2,7 @@ services:
   - type: web
     name: author-book-service
     env: docker
-    buildCommand: docker build -t author-book-service -f AuthorandBookMicroservice/Dockerfile .
+    buildCommand: docker build -t author-book-service -f Author and Book Microservice/Dockerfile .
     startCommand: docker run -p $PORT:8999 author-book-service
     envVars:
       - key: DATABASE_URL
